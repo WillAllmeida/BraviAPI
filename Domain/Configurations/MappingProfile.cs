@@ -12,6 +12,9 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        CreateMap<Contact, ContactListResponse>().ReverseMap();
+        CreateMap<Contact, ContactResponse>().ReverseMap();
+        CreateMap<Contact, CreateContactRequest>().ReverseMap();
+        CreateMap<User, CreateUserRequest>().ReverseMap();
+        CreateMap<User, UserResponse>().ReverseMap();
     }
 }

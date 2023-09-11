@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Domain.Models;
-public class ContactListResponse
+public class ContactResponse
 {
     public int Id { get; set; }
 

@@ -14,7 +14,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 builder.Services.AddTransient<IContactService, ContactService>();
+builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IContactRepository, ContactRepository>();
+builder.Services.AddTransient<IUserRepository, UserRepository>();
 
 
 builder.Services.AddControllers().AddJsonOptions(options =>

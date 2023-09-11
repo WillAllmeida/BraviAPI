@@ -31,4 +31,18 @@ public class ContactRepository : IContactRepository
 
         return contact.Id;
     }
+
+    public async Task<bool> RemoveContact(int id)
+    {
+        var contactToDelete = await _context.Contacts.SingleOrDefaultAsync(c => c.Id == id);
+        if(contactToDelete is null)
+        {
+            return false;
+        }
+        
+        _context.Contacts.Remove(contactToDelete);
+        await _context.SaveChangesAsync();
+
+        return true;
+    }
 }

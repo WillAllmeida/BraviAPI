@@ -6,5 +6,6 @@ public interface IContactRepository
 {
     Task<List<Contact>> GetContactList();
     Task<int> AddContact(Contact contact);
+    Task<bool> RemoveContact(int id);
 }
 

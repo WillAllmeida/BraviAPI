@@ -20,7 +20,6 @@ public class ContactBookContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
-        // connect to sqlite database
         options.UseSqlite("Data Source=../contactbook.db");
     }
     protected override void OnModelCreating(ModelBuilder modelBuilder)

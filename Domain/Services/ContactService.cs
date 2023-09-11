@@ -15,11 +15,21 @@ public class ContactService : IContactService
         _mapper = mapper;
     }
 
-    public async Task<List<ContactListResponse>> GetContactList()
+    public async Task<List<ContactResponse>> GetContactList()
     {
-        var contacts = _mapper.Map<List<ContactListResponse>>(await _contactRepository.GetContactList());
+        var contacts = _mapper.Map<List<ContactResponse>>(await _contactRepository.GetContactList());
 
         return contacts;
+    }
+
+    public async Task<int> CreateContact(CreateContactRequest newContact)
+    {
+        return await _contactRepository.AddContact(_mapper.Map<Contact>(newContact));
+    }
+
+    public async Task<bool> DeleteContact(int id)
+    {
+        return await _contactRepository.RemoveContact(id);
     }
 }
 
