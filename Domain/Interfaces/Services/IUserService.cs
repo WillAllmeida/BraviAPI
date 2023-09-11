@@ -10,5 +10,6 @@ public interface IUserService
 {
     Task<List<UserResponse>> GetUserList();
     Task<int> CreateUser(CreateUserRequest newUser);
+    Task<UserResponse?> UpdateUser(UpdateUserRequest newUser);
     Task<bool> DeleteUser(int id);
 }

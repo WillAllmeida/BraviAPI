@@ -45,4 +45,17 @@ public class ContactRepository : IContactRepository
 
         return true;
     }
+
+    public async Task<Contact> UpdateContact(Contact contactToUpdate)
+    {
+        _context.Contacts.Update(contactToUpdate);
+        await _context.SaveChangesAsync();
+
+        return contactToUpdate;
+    }
+
+    public async Task<Contact?> GetContactById(int id)
+    {
+        return await _context.Contacts.FirstOrDefaultAsync(u => u.Id == id);
+    }
 }

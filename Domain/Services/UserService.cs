@@ -25,6 +25,19 @@ public class UserService : IUserService
         return await _userRepository.AddUser(_mapper.Map<User>(newUser));
     }
 
+    public async Task<UserResponse?> UpdateUser(UpdateUserRequest newData)
+    {
+        var existingUser = await _userRepository.GetUserById(newData.Id);
+        if(existingUser == null)
+        {
+            return null;
+        }
+
+        existingUser.Name = newData.Name;
+
+        return _mapper.Map<UserResponse>(await _userRepository.UpdateUser(existingUser));
+    }
+
     public async Task<bool> DeleteUser(int id)
     {
         return await _userRepository.RemoveUser(id);

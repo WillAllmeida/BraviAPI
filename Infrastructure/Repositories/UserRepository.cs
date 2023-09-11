@@ -26,11 +26,24 @@ public class UserRepository : IUserRepository
         return user.Id;
     }
 
+    public async Task<User> UpdateUser(User userToUpdate)
+    {
+        _context.Users.Update(userToUpdate);
+        await _context.SaveChangesAsync();
+
+        return userToUpdate;
+    }
+
     public async Task<List<User>> GetUserList()
     {
         var users = await _context.Users.Include(u => u.Contacts).ToListAsync();
 
         return users;
+    }
+
+    public async Task<User?> GetUserById(int id)
+    {
+        return await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
     }
 
     public async Task<bool> RemoveUser(int id)

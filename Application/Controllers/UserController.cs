@@ -9,10 +9,10 @@ namespace Application.Controllers;
 [Route("[controller]")]
 public class UserController : ControllerBase
 {
-    private readonly ILogger<ContactController> _logger;
+    private readonly ILogger<UserController> _logger;
     private readonly IUserService _userService;
 
-    public UserController(ILogger<ContactController> logger, IUserService userService)
+    public UserController(ILogger<UserController> logger, IUserService userService)
     {
         _logger = logger;
         _userService = userService;
@@ -30,6 +30,19 @@ public class UserController : ControllerBase
     public async Task<IActionResult> CreateUser([FromBody] CreateUserRequest request)
     {
         var result = await _userService.CreateUser(request);
+
+        return Ok(result);
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> UpdateUser([FromBody] UpdateUserRequest request)
+    {
+        var result = await _userService.UpdateUser(request);
+
+        if(result is null)
+        {
+            return BadRequest();
+        }
 
         return Ok(result);
     }

@@ -1,5 +1,6 @@
 using Domain.Interfaces.Services;
 using Domain.Models;
+using Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Application.Controllers;
@@ -29,6 +30,19 @@ public class ContactController : ControllerBase
     public async Task<IActionResult> CreateContact([FromBody] CreateContactRequest request)
     {
         var result = await _contactService.CreateContact(request);
+
+        return Ok(result);
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> UpdateContact([FromBody] UpdateContactRequest request)
+    {
+        var result = await _contactService.UpdateContact(request);
+
+        if (result is null)
+        {
+            return BadRequest();
+        }
 
         return Ok(result);
     }

@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Domain.Models;
-public class CreateUserRequest
+public class UpdateUserRequest
 {
-    public string Name { get; set; }
+    public int Id { get; set; }
 
-    public List<CreateContactRequest> Contacts { get; set; }
+    public string Name { get; set; }
 }

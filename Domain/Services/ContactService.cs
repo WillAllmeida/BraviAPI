@@ -31,5 +31,18 @@ public class ContactService : IContactService
     {
         return await _contactRepository.RemoveContact(id);
     }
+
+    public async Task<ContactResponse?> UpdateContact(UpdateContactRequest newData)
+    {
+        var existingContact = await _contactRepository.GetContactById(newData.Id);
+        if (existingContact == null)
+        {
+            return null;
+        }
+
+        existingContact.Value = newData.Value;
+
+        return _mapper.Map<ContactResponse>(await _contactRepository.UpdateContact(existingContact));
+    }
 }
 
