@@ -1,6 +1,8 @@
+using Application.Validators;
 using Domain.Interfaces.Services;
 using Domain.Models;
 using Domain.Services;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Application.Controllers;
@@ -11,11 +13,18 @@ public class ContactController : ControllerBase
 {
     private readonly ILogger<ContactController> _logger;
     private readonly IContactService _contactService;
+    private readonly IValidator<CreateContactRequest> _createContactValidator;
+    private readonly IValidator<UpdateContactRequest> _updateContactValidator;
 
-    public ContactController(ILogger<ContactController> logger, IContactService contactService)
+    public ContactController(ILogger<ContactController> logger, 
+                                IContactService contactService,
+                                IValidator<CreateContactRequest> createContactValidator,
+                                IValidator<UpdateContactRequest> updateContactValidator)
     {
         _logger = logger;
         _contactService = contactService;
+        _createContactValidator = createContactValidator;
+        _updateContactValidator = updateContactValidator;
     }
 
     [HttpGet]
@@ -29,6 +38,13 @@ public class ContactController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateContact([FromBody] CreateContactRequest request)
     {
+        var validationResult = await _createContactValidator.ValidateAsync(request);
+
+        if (!validationResult.IsValid)
+        {
+            return BadRequest(validationResult);
+        }
+
         var result = await _contactService.CreateContact(request);
 
         return Ok(result);
@@ -37,11 +53,18 @@ public class ContactController : ControllerBase
     [HttpPut]
     public async Task<IActionResult> UpdateContact([FromBody] UpdateContactRequest request)
     {
+        var validationResult = await _updateContactValidator.ValidateAsync(request);
+
+        if (!validationResult.IsValid)
+        {
+            return BadRequest(validationResult);
+        }
+
         var result = await _contactService.UpdateContact(request);
 
         if (result is null)
         {
-            return BadRequest();
+            return UnprocessableEntity();
         }
 
         return Ok(result);
@@ -54,8 +77,7 @@ public class ContactController : ControllerBase
 
         if (!result)
         {
-            //TODO fix status
-            return BadRequest();
+            return UnprocessableEntity();
         }
 
         return Ok(result);

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Domain.Models;
 public class CreateUserRequest
 {
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
-    public List<CreateContactRequest> Contacts { get; set; }
+    public List<CreateContactRequest?> Contacts { get; set; }
 }
