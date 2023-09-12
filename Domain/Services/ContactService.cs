@@ -41,6 +41,7 @@ public class ContactService : IContactService
         }
 
         existingContact.Value = newData.Value;
+        existingContact.Type = newData.Type;
 
         return _mapper.Map<ContactResponse>(await _contactRepository.UpdateContact(existingContact));
     }
